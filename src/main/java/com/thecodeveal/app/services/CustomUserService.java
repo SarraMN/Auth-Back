@@ -23,7 +23,7 @@ public class CustomUserService implements UserDetailsService {
 		User user=userDetailsRepository.findByUserName(username);
 		
 		if(null==user) {
-			throw new UsernameNotFoundException("User Not Found with userName "+username);
+			throw new UsernameNotFoundException("User Not Found with userName "+ username);
 		}
 		return user;
 	}

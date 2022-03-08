@@ -17,18 +17,26 @@ public class Authority implements GrantedAuthority {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "ROLE_CODE")
-	private String roleCode;
+	@Column(name = "ROLE_NAME")
+	private String roleName;
 	
-	@Column(name = "ROLE_DESCRIPTION")
-	private String roleDescription;
-	
-	
+    
+	public Authority() {
+		
+	}
+
+	public Authority(Long id, String roleName) {
+		super();
+		this.id = id;
+		this.roleName = roleName;
+	}
+
+
 
 	@Override
 	public String getAuthority() {
 		// TODO Auto-generated method stub
-		return roleCode;
+		return roleName;
 	}
 
 
@@ -45,27 +53,21 @@ public class Authority implements GrantedAuthority {
 
 
 
-	public String getRoleCode() {
-		return roleCode;
+	public String getRoleName() {
+		return roleName;
 	}
 
 
 
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 
 
-	public String getRoleDescription() {
-		return roleDescription;
-	}
 
 
 
-	public void setRoleDescription(String roleDescription) {
-		this.roleDescription = roleDescription;
-	}
 
 	
 	

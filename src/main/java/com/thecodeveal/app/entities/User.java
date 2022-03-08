@@ -68,6 +68,7 @@ public class User implements UserDetails {
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "AUTH_USER_AUTHORITY", joinColumns = @JoinColumn(referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(referencedColumnName ="id"))
 	private List<Authority> authorities;
+	
 	@Column(name = "CREATED_ON")
 	private Date createdAt;
 
@@ -226,9 +227,6 @@ public class User implements UserDetails {
 
 	public void setGenre(String genre) {
 		Genre = genre;
-	}
-
-	
-	
+	}	
 
 }

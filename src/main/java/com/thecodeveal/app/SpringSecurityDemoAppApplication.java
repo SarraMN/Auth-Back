@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.thecodeveal.app.entities.Authority;
 import com.thecodeveal.app.entities.User;
 import com.thecodeveal.app.repository.UserDetailsRepository;
+import com.thecodeveal.app.services.AuthorityService;
 
 @SpringBootApplication
 public class SpringSecurityDemoAppApplication {
@@ -23,6 +24,9 @@ public class SpringSecurityDemoAppApplication {
 	
 	@Autowired
 	private UserDetailsRepository userDetailsRepository;
+	
+	@Autowired
+	private AuthorityService authorityService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityDemoAppApplication.class, args);
@@ -31,9 +35,13 @@ public class SpringSecurityDemoAppApplication {
 	@PostConstruct
 	protected void init() {
 		
+		
+		authorityService.add(new Authority(null, "Admin"));
+		authorityService.add(new Authority(null, "User_Condidat"));
+		authorityService.add(new Authority(null, "User_Profeser"));
 		List<Authority> authorityList=new ArrayList<>();
 		
-		authorityList.add(createAuthority("USER","User role"));
+		authorityList.add(createAuthority("USER"));
 		//authorityList.add(createAuthority("ADMIN","Admin role"));
 		
 		User user=new User();
@@ -50,6 +58,7 @@ public class SpringSecurityDemoAppApplication {
 		user.setGenre("Femme");
 		user.setEtat_civil("Celibataire");
 		user.setAuthorities(authorityList);
+		
 		userDetailsRepository.save(user);
 		
 		
@@ -57,10 +66,9 @@ public class SpringSecurityDemoAppApplication {
 	}
 	
 	
-	private Authority createAuthority(String roleCode,String roleDescription) {
+	private Authority createAuthority(String roleName) {
 		Authority authority=new Authority();
-		authority.setRoleCode(roleCode);
-		authority.setRoleDescription(roleDescription);
+		authority.setRoleName(roleName);
 		return authority;
 	}
 	
