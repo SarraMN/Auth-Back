@@ -20,6 +20,7 @@ public class Authority implements GrantedAuthority {
 	@Column(name = "ROLE_NAME")
 	private String roleName;
 	
+	
     
 	public Authority() {
 		

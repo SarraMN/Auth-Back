@@ -1,5 +1,7 @@
 package com.thecodeveal.app.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +16,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Table(name = "AUTH_USER_DETAILS")
@@ -34,8 +38,6 @@ public class User implements UserDetails {
 	@Column(name = "Mot_de_passe")
 	private String password;
 
-
-	
 	@Column(name = "Nom")
 	private String nom;
 
@@ -54,20 +56,32 @@ public class User implements UserDetails {
 
 	@Column(name = "enabled")
 	private boolean enabled=true;
+	
 	@Column(name = "Etat_civil")
-
 	private String etat_civil;
+
 	@Column(name = "Genre")
-
 	private String Genre;
+	
 	@Column(name = "Adresse")
-
 	private String adresse;
 
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinTable(name = "AUTH_USER_AUTHORITY", joinColumns = @JoinColumn(referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(referencedColumnName ="id"))
-	private List<Authority> authorities;
+	/*
+	 * @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	 * 
+	 * @JoinTable(name = "AUTH_USER_AUTHORITY", joinColumns
+	 * = @JoinColumn(referencedColumnName = "id"),inverseJoinColumns
+	 * = @JoinColumn(referencedColumnName ="id")) private List<Authority>
+	 * authorities;
+	 */
+	 
+	
+	
+	  @ManyToOne() 
+	  private Authority authority;
+	 
+	
 	
 	@Column(name = "CREATED_ON")
 	private Date createdAt;
@@ -77,8 +91,16 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return authorities;
+		
+		return Arrays.asList(new SimpleGrantedAuthority(authority.getRoleName()));
+	}
+
+	public Authority getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 
 	@Override
@@ -197,9 +219,6 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public void setAuthorities(List<Authority> authorities) {
-		this.authorities = authorities;
-	}
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
